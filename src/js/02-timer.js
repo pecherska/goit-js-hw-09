@@ -11,7 +11,7 @@ const dataHours = document.querySelector('[data-hours]');
 const dataMin = document.querySelector('[data-minutes]');
 const dataSec = document.querySelector('[data-seconds]');
 
-let intervalId = null;
+
 
 btnStart.addEventListener('click', startTimer);
 
@@ -31,14 +31,15 @@ function onClose(selectedDates) {
     } else {
       Notify.failure('Please choose a date in the future');
     }
-    return selectedDates[0];
+  
 }
 
 const calendar = flatpickr(input, options);
 
 function startTimer() {
-  intervalId = setInterval(() => {
-    btnStart.disabled = true;
+  btnStart.disabled = true;
+  input.disabled = true;
+    const intervalId = setInterval(() => {
     const dateNow = new Date();
     const deltaTime = calendar.selectedDates[0] - dateNow;
     const { days, hours, minutes, seconds } = convertMs(deltaTime);
@@ -49,7 +50,8 @@ function startTimer() {
     dataMin.textContent = minutes;
     dataSec.textContent = seconds;
     
-    if (deltaTime < 1000) {
+      if (deltaTime < 1000) {
+        input.disabled = false;
         clearInterval(intervalId);
     }
   }, 1000);
