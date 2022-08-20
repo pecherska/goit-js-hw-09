@@ -7,12 +7,14 @@ form.addEventListener('submit', onBntCreateProm);
 function onBntCreateProm(event) {
   event.preventDefault();
 
-  let step = Number(form.step.value);
-  let delay = Number(form.delay.value);
-  let amount = Number(form.amount.value);
+  const firstStep = Number(form.step.value);
+  const step = Number(form.delay.value);
+  const amount = Number(form.amount.value);
 
-  for (let i = 1; i <= amount; i += 1) {
-    createPromise(i, delay)
+  let delay = firstStep;
+
+  for (let position = 1; position <= amount; position += 1) {
+    createPromise(position, delay)
       .then(succes => {
         Notify.success(succes);
       })
@@ -26,7 +28,7 @@ function onBntCreateProm(event) {
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
    return new Promise((resolve, reject) => {
-    setInterval(() => {
+    setTimeout(() => {
       if (shouldResolve) {
         resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
       } else {
